@@ -1,0 +1,155 @@
+// Toggle
+// --------------------------
+@toggle-handle-diameter: @control-handle-diameter;
+@toggle-border-width:    @control-border-width;
+@toggle-width:           floor((@toggle-handle-diameter / .55));
+@toggle-spacing:         4px; // Distance between text and toggle.
+@toggle-height:          @toggle-handle-diameter;
+@toggle-handle-width:    @toggle-handle-diameter;
+@toggle-handle-height:   @toggle-handle-diameter;
+@toggle-icon-font-size:  ceil((@toggle-height / 2));
+@toggle-transition:      @control-transition;
+
+.toggle-theme(
+  @track-bg:            @control-bg;
+  @track-border-color:  @control-border;
+  @track-shadow:        @control-shadow-ambient;
+  @handle-bg:           @control-bg;
+  @handle-border-color: @control-handle-border;
+  @handle-shadow:       none;
+  @icon-color:          @track-border-color;
+) {
+  > label {
+    &:before {
+      // Track
+      color: @icon-color;
+      background-color: @track-bg;
+      border-color: @track-border-color;
+      box-shadow: @track-shadow;
+    }
+    &:after {
+      // Handle
+      background-color: @handle-bg;
+      border-color: @handle-border-color;
+      box-shadow: @handle-shadow;
+    }
+  }
+}
+
+.toggle {
+  @handle-checked-offset: (@toggle-width - @toggle-handle-width);
+
+  > label {
+    position: relative;
+    padding-left: (@toggle-width + @toggle-spacing);
+    cursor: pointer;
+
+    &:empty {
+      padding-left: @toggle-width;
+    }
+    &:before,
+    &:after {
+      display: block;
+      position: absolute;
+      border: @toggle-border-width solid;
+      border-radius: 100px;
+      transition: @toggle-transition all;
+    }
+    &:before {
+      // Track
+      content: attr(data-icon);
+      width: @toggle-width;
+      height: @toggle-height;
+      top: 50%;
+      left: 0;
+      margin-top: floor((-@toggle-height / 2));
+      padding-left: @handle-checked-offset;
+      padding-top: (@toggle-height / 2 - @toggle-border-width);
+      background-clip: padding-box;
+      box-shadow: @control-shadow-ambient;
+      font: normal normal normal @toggle-icon-font-size/0 FontAwesome;
+      text-align: left;
+    }
+    &:after {
+      // Handle
+      content: ' ';
+      width: @toggle-handle-width;
+      height: @toggle-handle-height;
+      overflow: hidden;
+      top: 50%;
+      left: 0;
+      margin-top: floor((-@toggle-handle-height / 2));
+    }
+  }
+
+  // Fade out icon when unchecked.
+  &:not(.checked) > label:before {
+    color: transparent !important;
+  }
+
+  // Move toggle to right side and icon to the left when toggle is checked.
+  &.checked > label {
+    &:before {
+      padding-left: max(0, floor(((@handle-checked-offset - @toggle-icon-font-size) / 2)));
+    }
+    &:after {
+      left: @handle-checked-offset;
+    }
+  }
+  &.disabled > label {
+    cursor: @cursor-disabled;
+  }
+
+  // Hide original input off-screen instead of invisibility
+  // to permit focus and hover.
+  > input {
+    position: absolute;
+    left: -21474836px;
+  }
+}
+
+.toggle {
+  &.checked-success.checked {
+    &:not(.disabled) {
+      .toggle-theme(
+        @track-border-color:  @control-success-border;
+        @track-shadow:        @control-success-shadow-ambient;
+        @handle-border-color: @control-success-handle-border;
+      );
+    }
+    &.focused {
+      // Add success-colored glow to focused success toggle.
+      .toggle-theme(
+        @track-border-color:  @control-success-border;
+        @track-shadow:        @control-success-shadow-ambient;
+        @handle-border-color: @control-success-handle-border;
+        @handle-shadow:       @control-success-shadow;
+      );
+    }
+  }
+  &.checked-attention {
+    .toggle-theme(@icon-color: @brand-warning);
+  }
+}
+
+.toggle {
+  // Default theme.
+  .toggle-theme;
+
+  &.focused {
+    .toggle-theme(
+      @track-border-color:  @control-focus-border;
+      @track-shadow:        @control-focus-shadow-ambient;
+      @handle-border-color: @control-focus-handle-border;
+      @handle-shadow:       @control-focus-shadow;
+    );
+  }
+
+  &.disabled {
+    .toggle-theme(
+      @track-bg:            @control-disabled-bg;
+      @handle-bg:           @control-disabled-bg;
+      @handle-border-color: @control-border;
+    );
+  }
+}

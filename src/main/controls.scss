@@ -1,0 +1,39 @@
+$control-cursor-disabled: default;
+
+// Controls should use only variables defined in this file.
+$control-caret-width:            1px;
+$control-handle-diameter:        16px;
+$control-border-width:           1px;
+$control-transition:             .2s ease-in-out;
+
+// Default
+$control-color:                  #aaa;
+$control-bg-disabled:            #eee;
+$control-bg:                     #fff;
+$control-handle-bg:              $control-bg;
+$control-border:                 #ccc;
+$control-shadow-ambient:         inset 0 1px 1px rgba(0,0,0,.075);
+$control-handle-border:          darken($control-border, 30%);
+$control-placeholder-color:      #aeaeae;
+$control-disabled-bg:            $control-bg-disabled;
+$control-disabled-color:         darken($control-disabled-bg, 40%);
+
+// Focus
+$control-focus-border:           #66afe9;
+$control-focus-shadow:           0 0 6px fade($control-focus-border, 60%);
+$control-focus-shadow-ambient:   inset 0 1px 1px fade($control-focus-border, 15%);
+$control-focus-handle-border:    darken($control-focus-border, 20%);
+
+// Success
+$control-success-border:         lighten(#00f, 20%);
+$control-success-shadow:         0 0 6px fade(#0f0, 60%);
+$control-success-shadow-ambient: inset 0 1px 1px fade(#0f0, 15%);
+$control-success-handle-border:  #0f0;
+
+// Override Bootstrap colors
+$input-bg:                       $control-bg;
+$input-bg-disabled:              $control-disabled-bg;
+$input-color:                    $control-color;
+$input-border:                   $control-border;
+$input-border-focus:             $control-focus-border;
+$input-color-placeholder:        $control-placeholder-color;

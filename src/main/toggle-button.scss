@@ -1,0 +1,155 @@
+$toggle-button-handle-diameter: $control-handle-diameter !default;
+$toggle-button-border-width:    $control-border-width !default;
+$toggle-button-width:           floor(($toggle-button-handle-diameter / .55)) !default;
+$toggle-button-spacing:         4px !default; // Distance between text and toggle.
+$toggle-button-height:          $toggle-button-handle-diameter !default;
+$toggle-button-handle-width:    $toggle-button-handle-diameter !default;
+$toggle-button-handle-height:   $toggle-button-handle-diameter !default;
+$toggle-button-icon-font-size:  ceil(($toggle-button-height / 2)) !default;
+$toggle-button-transition:      $control-transition !default;
+
+@mixin toggle-button-theme(
+  $track-bg:            $control-bg,
+  $track-border-color:  $control-border,
+  $track-shadow:        $control-shadow-ambient,
+  $handle-bg:           $control-bg,
+  $handle-border-color: $control-handle-border,
+  $handle-shadow:       none,
+  $icon-color:          $track-border-color
+) {
+  > label {
+    &:before {
+      // Track
+      color: $icon-color;
+      background-color: $track-bg;
+      border-color: $track-border-color;
+      box-shadow: $track-shadow;
+    }
+    &:after {
+      // Handle
+      background-color: $handle-bg;
+      border-color: $handle-border-color;
+      box-shadow: $handle-shadow;
+    }
+  }
+}
+
+.toggle-button {
+  $handle-checked-offset: ($toggle-button-width - $toggle-button-handle-width);
+
+  > label {
+    position: relative;
+    padding-left: ($toggle-button-width + $toggle-button-spacing);
+    cursor: pointer;
+
+    &:empty {
+      padding-left: $toggle-button-width;
+    }
+    &:before,
+    &:after {
+      display: block;
+      position: absolute;
+      border: $toggle-button-border-width solid;
+      border-radius: 100px;
+      transition: $toggle-button-transition all;
+    }
+    &:before {
+      // Track
+      //content: attr(data-icon);
+      content: '';
+      width: $toggle-button-width;
+      height: $toggle-button-height;
+      top: 50%;
+      left: 0;
+      margin-top: floor((-$toggle-button-height / 2));
+      padding-left: $handle-checked-offset;
+      padding-top: ($toggle-button-height / 2 - $toggle-button-border-width);
+      background-clip: padding-box;
+      box-shadow: $control-shadow-ambient;
+      line-height: 0;
+      //font: normal normal normal #{$toggle-button-icon-font-size}/0 FontAwesome;
+      text-align: left;
+    }
+    &:after {
+      // Handle
+      content: ' ';
+      width: $toggle-button-handle-width;
+      height: $toggle-button-handle-height;
+      overflow: hidden;
+      top: 50%;
+      left: 0;
+      margin-top: floor((-$toggle-button-handle-height / 2));
+    }
+  }
+
+  // Fade out icon when unchecked.
+  &:not(.checked) > label:before {
+    color: transparent !important;
+  }
+
+  // Move toggle to right side and icon to the left when toggle is checked.
+  &.checked > label {
+    &:before {
+      padding-left: max(0, floor((($handle-checked-offset - $toggle-button-icon-font-size) / 2)));
+    }
+    &:after {
+      left: $handle-checked-offset;
+    }
+  }
+  &.disabled > label {
+    cursor: $control-cursor-disabled;
+  }
+
+  // Hide original input off-screen instead of invisibility
+  // to permit focus and hover.
+  > input {
+    position: absolute;
+    left: -21474836px;
+  }
+}
+
+.toggle-button {
+  &.checked-success.checked {
+    &:not(.disabled) {
+      @include toggle-button-theme(
+        $track-border-color:  $control-success-border,
+        $track-shadow:        $control-success-shadow-ambient,
+        $handle-border-color: $control-success-handle-border
+      );
+    }
+    &.focused {
+      // Add success-colored glow to focused success toggle.
+      @include toggle-button-theme(
+        $track-border-color:  $control-success-border,
+        $track-shadow:        $control-success-shadow-ambient,
+        $handle-border-color: $control-success-handle-border,
+        $handle-shadow:       $control-success-shadow
+      );
+    }
+  }
+  &.checked-attention {
+    @include toggle-button-theme($icon-color: #f00);
+  }
+}
+
+.toggle-button {
+  // Default theme.
+  @include toggle-button-theme();
+
+  &.focused {
+    @include toggle-button-theme(
+      $track-border-color:  $control-focus-border,
+      $track-shadow:        $control-focus-shadow-ambient,
+      $handle-border-color: $control-focus-handle-border,
+      $handle-shadow:       $control-focus-shadow
+    );
+  }
+
+  &.disabled {
+    @include toggle-button-theme(
+      $track-bg:            $control-disabled-bg,
+      $handle-bg:           $control-disabled-bg,
+      $handle-border-color: $control-border
+    );
+  }
+}

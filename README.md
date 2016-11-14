@@ -1,4 +1,4 @@
-# React Toggle
+# React ToggleButton
 
 Simple React toggle button component.
 

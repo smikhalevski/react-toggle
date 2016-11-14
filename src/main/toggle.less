@@ -1,4 +1,4 @@
-// Toggle
+// ToggleButton
 // --------------------------
 @toggle-handle-diameter: @control-handle-diameter;
 @toggle-border-width:    @control-border-width;
@@ -97,7 +97,7 @@
     }
   }
   &.disabled > label {
-    cursor: @cursor-disabled;
+    cursor: @control-cursor-disabled;
   }
 
   // Hide original input off-screen instead of invisibility
@@ -128,7 +128,7 @@
     }
   }
   &.checked-attention {
-    .toggle-theme(@icon-color: @brand-warning);
+    .toggle-theme(@icon-color: #f00);
   }
 }
 

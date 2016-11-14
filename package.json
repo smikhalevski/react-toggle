@@ -1,5 +1,5 @@
 {
-  "name": "react-toggle",
+  "name": "@smikhalevski/react-toggle",
   "version": "0.0.1",
   "author": "Savva Mikhalevski",
   "description": "Simple React toggle button component",

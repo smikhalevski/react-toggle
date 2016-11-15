@@ -1,6 +1,6 @@
 {
   "name": "@smikhalevski/react-toggle",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Savva Mikhalevski",
   "description": "Simple React toggle button component",
   "license": "MIT",
